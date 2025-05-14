@@ -1,3 +1,6 @@
+from aiogram import Bot
+from aiogram.types import Message
+from aiogram.enums import ChatAction
 from datetime import datetime
 
 
@@ -9,3 +12,9 @@ def on_start():
 def on_shutdown():
     time_now = datetime.now().strftime('%H:%M:%S %d/%m/%Y')
     print(f'Bot is finished at {time_now}')
+
+async def bot_thinking(message: Message, bot: Bot):
+    await bot.send_chat_action(
+        chat_id=message.from_user.id,
+        action=ChatAction.TYPING,
+    )

@@ -1,6 +1,6 @@
-from .keyboards import keyboard_reply
+from .keyboards import kb_reply
 
 
 __all__ = [
-    'keyboard_reply',
+    'kb_reply',
 ]

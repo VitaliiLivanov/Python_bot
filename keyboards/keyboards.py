@@ -1,7 +1,7 @@
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 
-def keyboard_reply(buttons):
+def kb_reply(buttons):
     keyboard = ReplyKeyboardBuilder()
 
     for button in buttons:
