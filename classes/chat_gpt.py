@@ -11,8 +11,8 @@ import httpx
 class BotPath(Enum):
     RESOURCES = 'resources'
     IMAGES = os.path.join(RESOURCES, 'images')
-    MESSAGES = (RESOURCES, 'messages')
-    PROMPTS = (RESOURCES, 'prompts')
+    MESSAGES = os.path.join(RESOURCES, 'messages')
+    PROMPTS = os.path.join(RESOURCES, 'prompts')
 
 
 class GPTRole(Enum):
@@ -21,27 +21,32 @@ class GPTRole(Enum):
     ASSISTANT = 'assistant'
 
 
-class BotPhoto:
+class Extensions(Enum):
+    JPG = '.jpg'
+    TXT = '.txt'
+
+
+class Resource:
 
     def __init__(self, file_name: str):
-        self._file_name = file_name + '.jpg'
+        self._file_name = file_name
 
     @property
-    def photo(self) -> FSInputFile:
+    def photo(self):
         photo_path = os.path.join(BotPath.IMAGES.value, self._file_name)
-        return FSInputFile(photo_path)
-
-
-class BotText:
-    def __init__(self, file_name: str):
-        self._file_name = file_name + '.txt'
+        if os.path.exists(photo_path + Extensions.JPG.value):
+            return FSInputFile(photo_path)
 
     @property
-    def text(self) -> str:
+    def text(self):
         text_path = os.path.join(BotPath.MESSAGES.value, self._file_name)
-        with open(text_path, 'r', encoding='UTF-8') as file:
-            data = file.read()
-        return data
+        if os.path.exists(text_path + Extensions.TXT.value):
+            with open(text_path, 'r', encoding='UTF-8') as file:
+                return file.read()
+
+    def files(self) -> tuple[FSInputFile, str]:
+        return self.photo, self.text
+
 
 class GPTMessage:
 
@@ -49,7 +54,7 @@ class GPTMessage:
         self.prompt_file = prompt + '.txt'
         self.message_list = self._init_message()
 
-    def _init_message(self) ->list[dict[str, str]]:
+    def _init_message(self) -> list[dict[str, str]]:
         message = {
             'role': GPTRole.SYSTEM.value,
             'content': self._load_prompt()

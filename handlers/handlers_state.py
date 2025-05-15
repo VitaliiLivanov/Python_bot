@@ -7,3 +7,6 @@ class ChatGPTRequests(StatesGroup):
 
 class CelebrityTalk(StatesGroup):
     wait_for_answer = State()
+
+class Quiz(StatesGroup):
+    wait_for_answer = State()
