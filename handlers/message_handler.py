@@ -5,7 +5,8 @@ from aiogram.fsm.context import FSMContext
 from .handlers_state import CelebrityTalk, ChatGPTRequests, Quiz
 
 from classes import gpt_client
-from classes.chat_gpt import GPTMessage, GPTRole, BotPhoto
+from classes.resource import Resource
+from classes.chat_gpt import GPTMessage, GPTRole
 from keyboards import kb_end_talk, ikb_quiz_next
 from keyboards.callback_data import QuizData
 from .command import com_start
@@ -26,7 +27,7 @@ async def wait_for_gpt_handler(message: Message, state: FSMContext):
     gpt_message = GPTMessage('gpt')
     gpt_message.update(GPTRole.USER, message.text)
     gpt_response = await gpt_client.request(gpt_message)
-    photo = BotPhoto('gpt').photo
+    photo = Resource('gpt').photo
     await message.answer_photo(
         photo=photo,
         caption=gpt_response,

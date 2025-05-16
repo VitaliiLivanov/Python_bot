@@ -3,7 +3,6 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 def kb_reply(buttons):
     keyboard = ReplyKeyboardBuilder()
-
     for button in buttons:
         keyboard.button(
             text=button,
@@ -14,3 +13,13 @@ def kb_reply(buttons):
     )
 
 
+def kb_end_talk():
+    keyboard = ReplyKeyboardBuilder()
+    keyboard.button(
+        text='Попрощаться!',
+    )
+    return keyboard.as_markup(
+        resize_keyboard=True,
+        input_field_placeholder='Задайте свой вопрос...',
+        one_tine_keyboard=True,
+    )

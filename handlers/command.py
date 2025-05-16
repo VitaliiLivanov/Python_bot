@@ -4,7 +4,8 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from classes import gpt_client
-from classes.chat_gpt import BotPhoto, BotText, GPTMessage
+from classes.resource import Resource
+from classes.chat_gpt import GPTMessage
 from .handlers_state import ChatGPTRequests
 from misc import bot_thinking
 
@@ -18,8 +19,7 @@ command_router = Router()
 @command_router.message(F.text == 'Закончить')
 @command_router.message(Command('start'))
 async def com_start(message: Message):
-    photo = BotPhoto('main').photo
-    message_text = BotText('main').text
+    resource = Resource('main')
     buttons = [
         '/random',
         '/gpt',
@@ -27,8 +27,7 @@ async def com_start(message: Message):
         '/quiz',
     ]
     await message.answer_photo(
-        photo= photo,
-        caption= message_text,
+        **resource.as_kwargs(),
         reply_markup=kb_reply(buttons),
     )
 
@@ -37,40 +36,36 @@ async def com_start(message: Message):
 @command_router.message(Command('random'))
 async def com_random(message: Message):
     await bot_thinking(message)
-    photo = BotPhoto('random').photo
-    request_message = GPTMessage('random')
+    resource = Resource('random')
+    gpt_message = GPTMessage('random')
     buttons = [
         'Хочу еще факт',
         'Закончить',
     ]
-    msg_text = await gpt_client.request(request_message)
+    msg_text = await gpt_client.request(gpt_message)
     await message.answer_photo(
-        photo=photo,
+        photo=resource.photo,
         caption=msg_text,
         reply_markup=kb_reply(buttons),
     )
 
 
 @command_router.message(Command('gpt'))
-async def command_gpt(message: Message, state: FSMContext):
+async def com_gpt(message: Message, state: FSMContext):
     await state.set_state(ChatGPTRequests.wait_for_request)
     await bot_thinking(message)
-    photo = BotPhoto('gpt').photo
-    message_text = BotText('gpt').text
+    resource = Resource('gpt')
     await message.answer_photo(
-        photo=photo,
-        caption=message_text,
+        **resource.as_kwargs(),
     )
 
 
 @command_router.message(Command('talk'))
 async def com_talk(message: Message):
     await bot_thinking(message)
-    photo = BotPhoto('talk').photo
-    message_text = BotText('talk').text
+    resource = Resource('talk')
     await message.answer_photo(
-        photo=photo,
-        caption=message_text,
+        **resource.as_kwargs(),
         reply_markup=ikb_celebrity(),
     )
 
@@ -78,10 +73,8 @@ async def com_talk(message: Message):
 @command_router.message(Command('quiz'))
 async def com_quiz(message: Message):
     await bot_thinking(message)
-    photo = BotPhoto('quiz').photo
-    message_text = BotText('quiz').text
+    resource = Resource('quiz')
     await message.answer_photo(
-        photo=photo,
-        caption=message_text,
+        **resource.as_kwargs(),
         reply_markup=ikb_quiz_select_topic(),
     )
