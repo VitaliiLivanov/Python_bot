@@ -1,5 +1,3 @@
-from tkinter.font import names
-
 from aiogram.types import FSInputFile
 from aiogram.filters.callback_data import CallbackData
 
