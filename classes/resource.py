@@ -1,4 +1,5 @@
 from aiogram.types import FSInputFile
+from aiogram.filters.callback_data import CallbackData
 
 import os
 
@@ -6,12 +7,17 @@ from .enums import ResourcePath, Extensions
 
 
 class Button:
-    def __init__(self, path: str):
-        self._path = os.path.join(ResourcePath.PROMPTS.value, path + Extensions.TXT.value)
-        with open(self._path, 'r', encoding='UTF-8') as txt_file:
-            self.name = txt_file.readline().split(', ')[0][5:]
-            self.callback = path
+    def __init__(self, name: str, callback: str | CallbackData):
+        self.name = name
+        self.callback = callback
 
+    @classmethod
+    def from_file(cls, file_name: str):
+        path = os.path.join(ResourcePath.PROMPTS.value, file_name + Extensions.TXT.value)
+        with open(path, 'r', encoding='UTF-8') as txt_file:
+            name_line = txt_file.readline()
+            name = name_line.split(', ')[0][5:]
+        return cls(name, file_name)
 
 class Buttons:
     def __init__(self):
@@ -20,7 +26,7 @@ class Buttons:
     @staticmethod
     def _read_buttons() -> list[Button]:
         buttons_list = [file for file in os.listdir(ResourcePath.PROMPTS.value) if file.startswith('talk_')]
-        buttons = [Button(file.split('.')[0]) for file in buttons_list]
+        buttons = [Button.from_file(file.split('.')[0]) for file in buttons_list]
         return buttons
 
     def __iter__(self):
