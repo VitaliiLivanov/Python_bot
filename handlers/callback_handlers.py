@@ -16,7 +16,7 @@ callback_router = Router()
 @callback_router.callback_query(CelebrityData.filter(F.button == 'select_celebrity'))
 async def celebrity_callbacks(callback: CallbackQuery, callback_data: CelebrityData, bot: Bot, state: FSMContext):
     photo = Resource(callback_data.file_name).photo
-    button_name = Button(callback_data.file_name).name
+    button_name = Button.from_file(callback_data.file_name).name
     await callback.answer(
         text=f'С тобой говорит {button_name}',
     )
@@ -45,6 +45,7 @@ async def celebrity_callbacks(callback: CallbackQuery, callback_data: QuizData, 
         caption=response,
     )
     await state.set_state(Quiz.wait_for_answer)
+    request_message.update(GPTRole.ASSISTANT, response)
     await state.set_data({'messages': request_message, 'photo': photo, 'score': 0, 'callback': callback_data})
 
 
@@ -62,6 +63,7 @@ async def quiz_next_question(callback: CallbackQuery, callback_data: QuizData, s
     await callback.answer(
         text=f'Продолжаем тему {data['callback'].topic_name}'
     )
+    await state.set_state(Quiz.wait_for_answer)
     await state.update_data(data)
 
 # # # Добавил код ниже:
