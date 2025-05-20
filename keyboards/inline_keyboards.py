@@ -56,7 +56,7 @@ def ikb_quiz_next(current_topic: QuizData):
                 button=button.callback,
                 topic=current_topic.topic,
                 topic_name=current_topic.topic_name,
-            ),
+            )
         )
-    keyboard.adjust(2,1)
+    keyboard.adjust(2, 1)
     return keyboard.as_markup()

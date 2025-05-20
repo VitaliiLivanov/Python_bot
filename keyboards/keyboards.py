@@ -21,5 +21,5 @@ def kb_end_talk():
     return keyboard.as_markup(
         resize_keyboard=True,
         input_field_placeholder='Задайте свой вопрос...',
-        one_tine_keyboard=True,
+        one_time_keyboard=True,
     )

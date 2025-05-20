@@ -55,6 +55,7 @@ async def quiz_answer(message: Message, state: FSMContext):
     data: dict[str, GPTMessage | str | QuizData] = await state.get_data()
     data['messages'].update(GPTRole.USER, message.text)
     response = await gpt_client.request(data['messages'])
+
     if response == 'Правильно!':
         data['score'] += 1
     data['messages'].update(GPTRole.ASSISTANT, response)
@@ -64,3 +65,4 @@ async def quiz_answer(message: Message, state: FSMContext):
         reply_markup=ikb_quiz_next(data['callback']),
     )
     await state.update_data(data)
+

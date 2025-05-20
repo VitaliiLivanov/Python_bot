@@ -16,7 +16,7 @@ class GPTMessage:
     def _init_message(self) -> list[dict[str, str]]:
         message = {
             'role': GPTRole.SYSTEM.value,
-            'content': self._load_prompt()
+            'content': self._load_prompt(),
         }
         return [message]
 

@@ -1,4 +1,4 @@
-from aiogram import Bot, Router, F
+from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
@@ -8,8 +8,6 @@ from classes.resource import Resource
 from classes.chat_gpt import GPTMessage
 from .handlers_state import ChatGPTRequests
 from misc import bot_thinking
-
-import os
 
 from keyboards import kb_reply, ikb_celebrity, ikb_quiz_select_topic
 

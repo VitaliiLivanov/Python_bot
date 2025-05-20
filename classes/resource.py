@@ -51,3 +51,7 @@ class Resource:
 
     def as_kwargs(self) -> dict[str, FSInputFile | str]:
         return {'photo': self.photo, 'caption': self.text}
+
+
+
+
