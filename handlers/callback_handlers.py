@@ -9,6 +9,7 @@ from classes.chat_gpt import GPTMessage
 from classes.enums import GPTRole
 from keyboards.callback_data import CelebrityData, QuizData
 from .handlers_state import CelebrityTalk, Quiz
+from handlers.command import com_start,com_quiz
 
 callback_router = Router()
 
@@ -16,7 +17,7 @@ callback_router = Router()
 @callback_router.callback_query(CelebrityData.filter(F.button == 'select_celebrity'))
 async def celebrity_callbacks(callback: CallbackQuery, callback_data: CelebrityData, bot: Bot, state: FSMContext):
     photo = Resource(callback_data.file_name).photo
-    button_name = Button(callback_data.file_name).name
+    button_name = Button.from_file(callback_data.file_name).name
     await callback.answer(
         text=f'С тобой говорит {button_name}',
     )
@@ -45,11 +46,12 @@ async def celebrity_callbacks(callback: CallbackQuery, callback_data: QuizData, 
         caption=response,
     )
     await state.set_state(Quiz.wait_for_answer)
+    request_message.update(GPTRole.ASSISTANT, response)
     await state.set_data({'messages': request_message, 'photo': photo, 'score': 0, 'callback': callback_data})
 
 
 @callback_router.callback_query(QuizData.filter(F.button == 'next_question'))
-async def quiz_next_question(callback: CallbackQuery, callback_data: QuizData, state: FSMContext):
+async def quiz_next_question(callback: CallbackQuery, state: FSMContext):
     data: dict[str, GPTMessage | str | QuizData] = await state.get_data()
     data['messages'].update(GPTRole.USER, 'quiz_more')
     response = await gpt_client.request(data['messages'])
@@ -62,24 +64,25 @@ async def quiz_next_question(callback: CallbackQuery, callback_data: QuizData, s
     await callback.answer(
         text=f'Продолжаем тему {data['callback'].topic_name}'
     )
+    await state.set_state(Quiz.wait_for_answer)
     await state.update_data(data)
 
-# # # Добавил код ниже:
-# @callback_router.callback_query(QuizData.filter(F.button == 'finish_quiz'))
-# async def finish_quiz(callback: CallbackQuery, state: FSMContext):
-#     await callback.answer(
-#         text=f'Вы выбрали закончить!',
-#     )
-#     await state.clear()
-#     await com_start(callback.message)
-#
-#
-# @callback_router.callback_query(QuizData.filter(F.button == 'change_topic'))
-# async def change_topic(callback: CallbackQuery, state: FSMContext):
-#     await callback.answer(
-#         text=f'Вы выбрали сменить тему!',
-#     )
-#
-#     await state.set_state(Quiz.wait_for_answer)
-#     await com_quiz(callback.message)
+# Добавил код ниже:
+@callback_router.callback_query(QuizData.filter(F.button == 'finish_quiz'))
+async def finish_quiz(callback: CallbackQuery, state: FSMContext):
+    await callback.answer(
+        text=f'Вы выбрали закончить!',
+    )
+    await state.clear()
+    await com_start(callback.message)
+
+
+@callback_router.callback_query(QuizData.filter(F.button == 'change_topic'))
+async def change_topic(callback: CallbackQuery, state: FSMContext):
+    await callback.answer(
+        text=f'Вы выбрали сменить тему!',
+    )
+
+    await state.set_state(Quiz.wait_for_answer)
+    await com_quiz(callback.message)
 

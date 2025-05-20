@@ -4,9 +4,10 @@ from classes.resource import Button, Buttons
 from .callback_data import CelebrityData, QuizData
 
 
+# Функция создает клавиатуру с кнопками, которые берутся из объекта Buttons
 def ikb_celebrity():
     keyboard = InlineKeyboardBuilder()
-    buttons = Buttons()
+    buttons: list[Button] = Buttons()
     for button in buttons:
         keyboard.button(
             text=button.name,
@@ -18,10 +19,11 @@ def ikb_celebrity():
     keyboard.adjust(1)
     return keyboard.as_markup()
 
-
+# Функция делает клавиатуру с 3 темами(Python, Math, Biology),
+# создавая Button с соответствующими именами и callback параметрами.
 def ikb_quiz_select_topic():
     keyboard = InlineKeyboardBuilder()
-    buttons = [
+    buttons: list[Button] = [
         Button('Язык Python', 'quiz_prog'),
         Button('Математика', 'quiz_math'),
         Button('Биология', 'quiz_biology'),
