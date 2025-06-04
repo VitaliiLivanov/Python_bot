@@ -5,6 +5,7 @@ ____
 
 > Это проект первого модуля на курсе **JavaRush Python University.**
 > Телеграм бот подключен к **chat GPT версии 3.5 turbo.**
+>
 > ![mygif](/resources/gifs/short.gif)
 ___
 ### Options:
