@@ -5,12 +5,12 @@ ____
     Это проект первого модуля на курсе **JavaRush Python University.**
     Телеграм бот подключен к **chat GPT версии 3.5 turbo.**
 > 
-> ![mygif](Python_bot/resources/gifs/short.gif)
+> ![mygif](Telegram_Bot/resources/gifs/short.gif)
 ___
 ### Options:
 
 > 1) ***Случайный факт***
-    ![Random fact](Python_bot/resources/images/random.jpg)
+    ![Random fact](Telegram_Bot/resources/images/random.jpg)
     Бот обрабатывает команду **/random**.
     Делает запрос к ChatGPT с заранее заготовленным промптом.
     Полученный ответ передается пользователю.
@@ -19,14 +19,14 @@ ___
         **"Хочу ещё факт":** работает так же, как команда **/random**.
 
 > 2) ***ChatGPT интерфейс***
-    ![GPT](Python_bot/resources/images/gpt.jpg)
+    ![GPT](Telegram_Bot/resources/images/gpt.jpg)
     Бот обрабатывает команду **/gpt**.
     При обработке команды отправляет заранее заготовленное изображение.
     Делает запрос к ChatGPT с текстом полученного сообщения.
     Ответ ChatGPT передается пользователю в текстовом сообщении.
 
 > 3) ***Диалог с известной личностью***
-    ![Persons](Python_bot/resources/images/talk.jpg)
+    ![Persons](Telegram_Bot/resources/images/talk.jpg)
     Бот обрабатывает команду **/talk**.
     Предлагает выбор из нескольких известных личностей с помощью кнопок.
     По нажатию кнопки устанавливается промпт выбранной личности.
@@ -34,7 +34,7 @@ ___
     К ответам прикрепляется кнопка "Закончить", которая работает так же, как команда **/start**.
     
 > 4) ***Викторина***
-    ![Quiz](Python_bot/resources/images/quiz.jpg)
+    ![Quiz](Telegram_Bot/resources/images/quiz.jpg)
     Бот обрабатывает команду **/quiz**.
     Предлагает выбор из нескольких тем с помощью кнопок.
     После выбора темы передает запрос ChatGPT и получает вопрос викторины.
