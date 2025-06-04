@@ -2,7 +2,7 @@
 
 ***Description of project***
 
-> Это проект первого модуля на курсе **JavaRush Python University.**
+Это проект первого модуля на курсе **JavaRush Python University.**
 
 > ![mygif](/resources/gifs/short.gif)
 ___
