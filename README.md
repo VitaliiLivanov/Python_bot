@@ -9,7 +9,8 @@ ___
 ### Options:
 
 > 1) ***Случайный факт***
-    ![Random fact](/resources/images/random.jpg)
+> 
+    >![Random fact](/resources/images/random.jpg)
     Бот обрабатывает команду **/random**.
     Делает запрос к ChatGPT с заранее заготовленным промптом.
     Полученный ответ передается пользователю.
